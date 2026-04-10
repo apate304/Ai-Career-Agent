@@ -42,6 +42,12 @@ margin-top:10px;
 margin-bottom:15px;
 border-radius:6px;
 border:1px solid #ccc;
+box-sizing:border-box;
+}
+
+textarea{
+min-height:180px;
+resize:vertical;
 }
 
 button{
@@ -103,6 +109,20 @@ max-height:200px;
 overflow-y:auto;
 font-size:13px;
 }
+
+#rewriteOutput{
+white-space:pre-wrap;
+max-height:280px;
+overflow-y:auto;
+font-size:13px;
+line-height:1.5;
+}
+
+.status{
+margin-top:10px;
+font-size:14px;
+color:#555;
+}
 </style>
 </head>
 
@@ -113,7 +133,6 @@ font-size:13px;
 <div class="container">
 <div class="grid">
 
-<!-- LEFT -->
 <div class="card">
 <h2>Resume Analyzer</h2>
 
@@ -127,9 +146,9 @@ font-size:13px;
 <textarea id="jobDescription"></textarea>
 
 <button onclick="analyze()">Analyze Resume</button>
+<div class="status" id="statusText">Ready</div>
 </div>
 
-<!-- RIGHT -->
 <div class="card">
 <h2>Results Dashboard</h2>
 
@@ -176,65 +195,94 @@ font-size:13px;
 <div id="resumePreview">No analysis yet</div>
 </div>
 
+<div class="section">
+<b>AI Rewrite</b>
+<div id="rewriteOutput">No rewrite yet</div>
+</div>
+
 </div>
 </div>
 </div>
 
 <script>
-
 function renderPills(id, items, color=""){
-let container = document.getElementById(id)
-container.innerHTML=""
+  let container = document.getElementById(id);
+  container.innerHTML = "";
 
-items.forEach(i=>{
-let span = document.createElement("span")
-span.className = "pill " + color
-span.textContent = i
-container.appendChild(span)
-})
+  if (!items || items.length === 0) {
+    container.innerHTML = "<span>None</span>";
+    return;
+  }
+
+  items.forEach(i => {
+    let span = document.createElement("span");
+    span.className = "pill " + color;
+    span.textContent = i;
+    container.appendChild(span);
+  });
 }
 
 async function analyze(){
+  let file = document.getElementById("resume").files[0];
+  let title = document.getElementById("jobTitle").value;
+  let description = document.getElementById("jobDescription").value;
+  let status = document.getElementById("statusText");
 
-let file = document.getElementById("resume").files[0]
-let title = document.getElementById("jobTitle").value
-let description = document.getElementById("jobDescription").value
+  if (!file || !title || !description) {
+    alert("Please upload a resume, enter a job title, and paste a job description.");
+    return;
+  }
 
-let formData = new FormData()
-formData.append("resume", file)
-formData.append("jobTitle", title)
-formData.append("jobDescription", description)
+  let formData = new FormData();
+  formData.append("resume", file);
+  formData.append("jobTitle", title);
+  formData.append("jobDescription", description);
 
-let res = await fetch("http://127.0.0.1:8000/analyze", {
-method:"POST",
-body:formData
-})
+  status.innerText = "Analyzing...";
 
-let data = await res.json()
+  try {
+    let res = await fetch("http://127.0.0.1:8000/analyze", {
+      method:"POST",
+      body:formData
+    });
 
-document.getElementById("scoreText").innerText = data.match_score + "%"
-document.getElementById("progressBar").style.width = data.match_score + "%"
+    let data = await res.json();
 
-document.getElementById("jobTitleResult").innerText = data.job_title
+    document.getElementById("scoreText").innerText = data.match_score + "%";
+    document.getElementById("progressBar").style.width = data.match_score + "%";
+    document.getElementById("jobTitleResult").innerText = data.job_title || "";
 
-renderPills("matchedSkills", data.matched_skills, "green")
-renderPills("resumeSkills", data.resume_skills)
-renderPills("jobSkills", data.job_skills)
-renderPills("missingSkills", data.missing_skills, "red")
+    renderPills("matchedSkills", data.matched_skills, "green");
+    renderPills("resumeSkills", data.resume_skills);
+    renderPills("jobSkills", data.job_skills);
+    renderPills("missingSkills", data.missing_skills, "red");
 
-let sug = document.getElementById("suggestions")
-sug.innerHTML = ""
-data.suggestions.forEach(s=>{
-let li = document.createElement("li")
-li.innerText = s
-sug.appendChild(li)
-})
+    let sug = document.getElementById("suggestions");
+    sug.innerHTML = "";
+    if (data.suggestions && data.suggestions.length > 0) {
+      data.suggestions.forEach(s => {
+        let li = document.createElement("li");
+        li.innerText = s;
+        sug.appendChild(li);
+      });
+    } else {
+      let li = document.createElement("li");
+      li.innerText = "No suggestions";
+      sug.appendChild(li);
+    }
 
-document.getElementById("resumePreview").innerText =
-data.resume_preview || "No resume text extracted"
+    document.getElementById("resumePreview").innerText =
+      data.resume_preview || "No resume text extracted";
 
+    document.getElementById("rewriteOutput").innerText =
+      data.rewritten_resume || "No rewrite generated";
+
+    status.innerText = "Done";
+  } catch (error) {
+    status.innerText = "Error";
+    alert("Error connecting to backend or generating rewrite.");
+  }
 }
-
 </script>
 
 </body>
