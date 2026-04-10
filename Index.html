@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AI Career Agent</title>
+
+<style>
+body{
+font-family: Arial, sans-serif;
+background:#f4f7fb;
+margin:0;
+padding:40px;
+}
+
+.container{
+max-width:1100px;
+margin:auto;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:24px;
+}
+
+.card{
+background:white;
+padding:24px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.08);
+}
+
+h1{
+text-align:center;
+margin-bottom:30px;
+}
+
+input, textarea{
+width:100%;
+padding:10px;
+margin-top:10px;
+margin-bottom:15px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+padding:12px 18px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+.section{
+margin-top:15px;
+padding:12px;
+background:#f9fafb;
+border-radius:10px;
+border:1px solid #e5e7eb;
+}
+
+.pill{
+display:inline-block;
+padding:6px 10px;
+border-radius:20px;
+margin:4px;
+font-size:14px;
+background:#e0ecff;
+}
+
+.green{
+background:#dcfce7;
+color:#15803d;
+}
+
+.red{
+background:#fee2e2;
+color:#b91c1c;
+}
+
+.progress{
+height:12px;
+background:#e5e7eb;
+border-radius:10px;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+background:#2563eb;
+width:0%;
+}
+
+#resumePreview{
+white-space:pre-wrap;
+max-height:200px;
+overflow-y:auto;
+font-size:13px;
+}
+</style>
+</head>
+
+<body>
+
+<h1>AI Career Agent</h1>
+
+<div class="container">
+<div class="grid">
+
+<!-- LEFT -->
+<div class="card">
+<h2>Resume Analyzer</h2>
+
+<label>Upload Resume</label>
+<input type="file" id="resume">
+
+<label>Job Title</label>
+<input type="text" id="jobTitle">
+
+<label>Job Description</label>
+<textarea id="jobDescription"></textarea>
+
+<button onclick="analyze()">Analyze Resume</button>
+</div>
+
+<!-- RIGHT -->
+<div class="card">
+<h2>Results Dashboard</h2>
+
+<div class="section">
+<b>Match Score</b>
+<h2 id="scoreText">--%</h2>
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+</div>
+
+<div class="section">
+<b>Job Title</b>
+<div id="jobTitleResult"></div>
+</div>
+
+<div class="section">
+<b>Matched Skills</b>
+<div id="matchedSkills"></div>
+</div>
+
+<div class="section">
+<b>Resume Skills</b>
+<div id="resumeSkills"></div>
+</div>
+
+<div class="section">
+<b>Job Skills</b>
+<div id="jobSkills"></div>
+</div>
+
+<div class="section">
+<b>Missing Skills</b>
+<div id="missingSkills"></div>
+</div>
+
+<div class="section">
+<b>Suggestions</b>
+<ul id="suggestions"></ul>
+</div>
+
+<div class="section">
+<b>Resume Preview</b>
+<div id="resumePreview">No analysis yet</div>
+</div>
+
+</div>
+</div>
+</div>
+
+<script>
+
+function renderPills(id, items, color=""){
+let container = document.getElementById(id)
+container.innerHTML=""
+
+items.forEach(i=>{
+let span = document.createElement("span")
+span.className = "pill " + color
+span.textContent = i
+container.appendChild(span)
+})
+}
+
+async function analyze(){
+
+let file = document.getElementById("resume").files[0]
+let title = document.getElementById("jobTitle").value
+let description = document.getElementById("jobDescription").value
+
+let formData = new FormData()
+formData.append("resume", file)
+formData.append("jobTitle", title)
+formData.append("jobDescription", description)
+
+let res = await fetch("http://127.0.0.1:8000/analyze", {
+method:"POST",
+body:formData
+})
+
+let data = await res.json()
+
+document.getElementById("scoreText").innerText = data.match_score + "%"
+document.getElementById("progressBar").style.width = data.match_score + "%"
+
+document.getElementById("jobTitleResult").innerText = data.job_title
+
+renderPills("matchedSkills", data.matched_skills, "green")
+renderPills("resumeSkills", data.resume_skills)
+renderPills("jobSkills", data.job_skills)
+renderPills("missingSkills", data.missing_skills, "red")
+
+let sug = document.getElementById("suggestions")
+sug.innerHTML = ""
+data.suggestions.forEach(s=>{
+let li = document.createElement("li")
+li.innerText = s
+sug.appendChild(li)
+})
+
+document.getElementById("resumePreview").innerText =
+data.resume_preview || "No resume text extracted"
+
+}
+
+</script>
+
+</body>
+</html>
