@@ -1,129 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>AI Career Agent</title>
+  <meta charset="UTF-8">
+  <title>AI Career Agent</title>
 
-<style>
-body{
-font-family: Arial, sans-serif;
-background:#f4f7fb;
-margin:0;
-padding:40px;
-}
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #e0f2fe, #f8fafc);
+      color: #111827;
+    }
 
-.container{
-max-width:1100px;
-margin:auto;
-}
+    h1 {
+      text-align: center;
+      color: #1e3a8a;
+      margin-bottom: 24px;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:24px;
-}
+    .container {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
 
-.card{
-background:white;
-padding:24px;
-border-radius:12px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
-}
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      width: 50%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
 
-h1{
-text-align:center;
-margin-bottom:30px;
-}
+    h2 {
+      margin-top: 0;
+      margin-bottom: 18px;
+    }
 
-input, textarea{
-width:100%;
-padding:10px;
-margin-top:10px;
-margin-bottom:15px;
-border-radius:6px;
-border:1px solid #ccc;
-box-sizing:border-box;
-}
+    label {
+      display: block;
+      margin: 14px 0 6px;
+      font-weight: 600;
+    }
 
-textarea{
-min-height:180px;
-resize:vertical;
-}
+    input[type="text"], textarea, input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #d1d5db;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
 
-button{
-padding:12px 18px;
-background:#2563eb;
-color:white;
-border:none;
-border-radius:6px;
-cursor:pointer;
-}
+    textarea {
+      height: 150px;
+      resize: vertical;
+    }
 
-button:hover{
-background:#1d4ed8;
-}
+    button {
+      background: #2563eb;
+      color: white;
+      padding: 11px 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 16px;
+      font-size: 14px;
+      font-weight: 600;
+    }
 
-.section{
-margin-top:15px;
-padding:12px;
-background:#f9fafb;
-border-radius:10px;
-border:1px solid #e5e7eb;
-}
+    button:hover {
+      background: #1d4ed8;
+    }
 
-.pill{
-display:inline-block;
-padding:6px 10px;
-border-radius:20px;
-margin:4px;
-font-size:14px;
-background:#e0ecff;
-}
+    .status {
+      margin-top: 12px;
+      color: #475569;
+      font-size: 14px;
+    }
 
-.green{
-background:#dcfce7;
-color:#15803d;
-}
+    .section {
+      margin-top: 18px;
+    }
 
-.red{
-background:#fee2e2;
-color:#b91c1c;
-}
+    .tag {
+      display: inline-block;
+      padding: 6px 10px;
+      margin: 4px 6px 0 0;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+    }
 
-.progress{
-height:12px;
-background:#e5e7eb;
-border-radius:10px;
-overflow:hidden;
-}
+    .green {
+      background: #dcfce7;
+      color: #166534;
+    }
 
-.progress-bar{
-height:100%;
-background:#2563eb;
-width:0%;
-}
+    .red {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
 
-#resumePreview{
-white-space:pre-wrap;
-max-height:200px;
-overflow-y:auto;
-font-size:13px;
-}
+    .blue {
+      background: #dbeafe;
+      color: #1e40af;
+    }
 
-#rewriteOutput{
-white-space:pre-wrap;
-max-height:280px;
-overflow-y:auto;
-font-size:13px;
-line-height:1.5;
-}
+    .muted-box {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 8px;
+      white-space: pre-wrap;
+      font-size: 14px;
+      line-height: 1.45;
+      max-height: 220px;
+      overflow-y: auto;
+    }
 
-.status{
-margin-top:10px;
-font-size:14px;
-color:#555;
-}
-</style>
+    .score {
+      font-size: 28px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    ul {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+
+    li {
+      margin-bottom: 6px;
+    }
+  </style>
 </head>
 
 <body>
@@ -131,158 +143,155 @@ color:#555;
 <h1>AI Career Agent</h1>
 
 <div class="container">
-<div class="grid">
 
-<div class="card">
-<h2>Resume Analyzer</h2>
+  <div class="card">
+    <h2>Resume Analyzer</h2>
 
-<label>Upload Resume</label>
-<input type="file" id="resume">
+    <label for="resume">Upload Resume</label>
+    <input type="file" id="resume">
 
-<label>Job Title</label>
-<input type="text" id="jobTitle">
+    <label for="jobTitle">Job Title</label>
+    <input type="text" id="jobTitle" placeholder="Job Title">
 
-<label>Job Description</label>
-<textarea id="jobDescription"></textarea>
+    <label for="jobDescription">Job Description</label>
+    <textarea id="jobDescription" placeholder="Paste the job description here"></textarea>
 
-<button onclick="analyze()">Analyze Resume</button>
-<div class="status" id="statusText">Ready</div>
-</div>
+    <button onclick="analyze()">Analyze Resume</button>
+    <div class="status" id="statusText">Ready</div>
+  </div>
 
-<div class="card">
-<h2>Results Dashboard</h2>
+  <div class="card">
+    <h2>Results Dashboard</h2>
 
-<div class="section">
-<b>Match Score</b>
-<h2 id="scoreText">--%</h2>
-<div class="progress">
-<div class="progress-bar" id="progressBar"></div>
-</div>
-</div>
+    <div class="section">
+      <strong>Match Score</strong>
+      <div class="score" id="scoreText">--%</div>
+    </div>
 
-<div class="section">
-<b>Job Title</b>
-<div id="jobTitleResult"></div>
-</div>
+    <div class="section">
+      <strong>Job Title</strong>
+      <div id="jobTitleResult">No analysis yet</div>
+    </div>
 
-<div class="section">
-<b>Matched Skills</b>
-<div id="matchedSkills"></div>
-</div>
+    <div class="section">
+      <strong>Matched Skills</strong>
+      <div id="matchedSkills"></div>
+    </div>
 
-<div class="section">
-<b>Resume Skills</b>
-<div id="resumeSkills"></div>
-</div>
+    <div class="section">
+      <strong>Resume Skills</strong>
+      <div id="resumeSkills"></div>
+    </div>
 
-<div class="section">
-<b>Job Skills</b>
-<div id="jobSkills"></div>
-</div>
+    <div class="section">
+      <strong>Job Skills</strong>
+      <div id="jobSkills"></div>
+    </div>
 
-<div class="section">
-<b>Missing Skills</b>
-<div id="missingSkills"></div>
-</div>
+    <div class="section">
+      <strong>Missing Skills</strong>
+      <div id="missingSkills"></div>
+    </div>
 
-<div class="section">
-<b>Suggestions</b>
-<ul id="suggestions"></ul>
-</div>
+    <div class="section">
+      <strong>Suggestions</strong>
+      <ul id="suggestions">
+        <li>No analysis yet</li>
+      </ul>
+    </div>
 
-<div class="section">
-<b>Resume Preview</b>
-<div id="resumePreview">No analysis yet</div>
-</div>
+    <div class="section">
+      <strong>Resume Preview</strong>
+      <div class="muted-box" id="resumePreview">No analysis yet</div>
+    </div>
 
-<div class="section">
-<b>AI Rewrite</b>
-<div id="rewriteOutput">No rewrite yet</div>
-</div>
+    <div class="section">
+      <strong>AI Rewrite</strong>
+      <div class="muted-box" id="rewriteOutput">No rewrite yet</div>
+    </div>
+  </div>
 
-</div>
-</div>
 </div>
 
 <script>
-function renderPills(id, items, color=""){
-  let container = document.getElementById(id);
-  container.innerHTML = "";
+  function renderTags(containerId, items, colorClass) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = "";
 
-  if (!items || items.length === 0) {
-    container.innerHTML = "<span>None</span>";
-    return;
-  }
-
-  items.forEach(i => {
-    let span = document.createElement("span");
-    span.className = "pill " + color;
-    span.textContent = i;
-    container.appendChild(span);
-  });
-}
-
-async function analyze(){
-  let file = document.getElementById("resume").files[0];
-  let title = document.getElementById("jobTitle").value;
-  let description = document.getElementById("jobDescription").value;
-  let status = document.getElementById("statusText");
-
-  if (!file || !title || !description) {
-    alert("Please upload a resume, enter a job title, and paste a job description.");
-    return;
-  }
-
-  let formData = new FormData();
-  formData.append("resume", file);
-  formData.append("jobTitle", title);
-  formData.append("jobDescription", description);
-
-  status.innerText = "Analyzing...";
-
-  try {
-    let res = await fetch("http://127.0.0.1:8000/analyze", {
-      method:"POST",
-      body:formData
-    });
-
-    let data = await res.json();
-
-    document.getElementById("scoreText").innerText = data.match_score + "%";
-    document.getElementById("progressBar").style.width = data.match_score + "%";
-    document.getElementById("jobTitleResult").innerText = data.job_title || "";
-
-    renderPills("matchedSkills", data.matched_skills, "green");
-    renderPills("resumeSkills", data.resume_skills);
-    renderPills("jobSkills", data.job_skills);
-    renderPills("missingSkills", data.missing_skills, "red");
-
-    let sug = document.getElementById("suggestions");
-    sug.innerHTML = "";
-    if (data.suggestions && data.suggestions.length > 0) {
-      data.suggestions.forEach(s => {
-        let li = document.createElement("li");
-        li.innerText = s;
-        sug.appendChild(li);
-      });
-    } else {
-      let li = document.createElement("li");
-      li.innerText = "No suggestions";
-      sug.appendChild(li);
+    if (!items || items.length === 0) {
+      container.innerHTML = "<span>No items</span>";
+      return;
     }
 
-    document.getElementById("resumePreview").innerText =
-      data.resume_preview || "No resume text extracted";
-
-    document.getElementById("rewriteOutput").innerText =
-      data.rewritten_resume || "No rewrite generated";
-
-    status.innerText = "Done";
-  } catch (error) {
-    status.innerText = "Error";
-    alert("Error connecting to backend or generating rewrite.");
+    items.forEach(item => {
+      const span = document.createElement("span");
+      span.className = "tag " + colorClass;
+      span.textContent = item;
+      container.appendChild(span);
+    });
   }
-}
+
+  async function analyze() {
+    const file = document.getElementById("resume").files[0];
+    const jobTitle = document.getElementById("jobTitle").value.trim();
+    const jobDescription = document.getElementById("jobDescription").value.trim();
+    const statusText = document.getElementById("statusText");
+
+    if (!file || !jobTitle || !jobDescription) {
+      alert("Please upload a resume, enter a job title, and paste a job description.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("resume", file);
+    formData.append("jobTitle", jobTitle);
+    formData.append("jobDescription", jobDescription);
+
+    statusText.textContent = "Analyzing...";
+
+    try {
+      const response = await fetch("http://127.0.0.1:8000/analyze", {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+
+      document.getElementById("scoreText").textContent = (data.match_score ?? "--") + "%";
+      document.getElementById("jobTitleResult").textContent = data.job_title || "No title returned";
+
+      renderTags("matchedSkills", data.matched_skills, "green");
+      renderTags("resumeSkills", data.resume_skills, "blue");
+      renderTags("jobSkills", data.job_skills, "blue");
+      renderTags("missingSkills", data.missing_skills, "red");
+
+      const suggestions = document.getElementById("suggestions");
+      suggestions.innerHTML = "";
+
+      if (data.suggestions && data.suggestions.length > 0) {
+        data.suggestions.forEach(item => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          suggestions.appendChild(li);
+        });
+      } else {
+        const li = document.createElement("li");
+        li.textContent = "No suggestions";
+        suggestions.appendChild(li);
+      }
+
+      document.getElementById("resumePreview").textContent =
+        data.resume_preview || "No resume text extracted.";
+
+      document.getElementById("rewriteOutput").textContent =
+        data.rewritten_resume || "No rewrite generated.";
+
+      statusText.textContent = "Done";
+    } catch (error) {
+      statusText.textContent = "Error";
+      alert("Could not connect to backend. Make sure your server is running.");
+    }
+  }
 </script>
 
 </body>
