@@ -1,141 +1,151 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>AI Career Agent</title>
+<meta charset="UTF-8">
+<title>AI Career Agent</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 20px;
-      background: linear-gradient(135deg, #e0f2fe, #f8fafc);
-      color: #111827;
-    }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #e0f2fe, #f8fafc);
+  color: #111827;
+}
 
-    h1 {
-      text-align: center;
-      color: #1e3a8a;
-      margin-bottom: 24px;
-    }
+h1 {
+  text-align: center;
+  color: #1e3a8a;
+  margin-bottom: 24px;
+}
 
-    .container {
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-    }
+.container {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
 
-    .card {
-      background: white;
-      padding: 20px;
-      border-radius: 16px;
-      width: 50%;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-    }
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  width: 50%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
 
-    h2 {
-      margin-top: 0;
-      margin-bottom: 18px;
-    }
+h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
 
-    label {
-      display: block;
-      margin: 14px 0 6px;
-      font-weight: 600;
-    }
+label {
+  display: block;
+  margin: 14px 0 6px;
+  font-weight: 600;
+}
 
-    input[type="text"], textarea, input[type="file"] {
-      width: 100%;
-      padding: 10px;
-      border-radius: 8px;
-      border: 1px solid #d1d5db;
-      box-sizing: border-box;
-      font-size: 14px;
-    }
+input[type="text"], textarea, input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  box-sizing: border-box;
+  font-size: 14px;
+}
 
-    textarea {
-      height: 150px;
-      resize: vertical;
-    }
+textarea {
+  height: 150px;
+  resize: vertical;
+}
 
-    button {
-      background: #2563eb;
-      color: white;
-      padding: 11px 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 16px;
-      font-size: 14px;
-      font-weight: 600;
-    }
+button {
+  background: #2563eb;
+  color: white;
+  padding: 11px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-right: 8px;
+}
 
-    button:hover {
-      background: #1d4ed8;
-    }
+button:hover {
+  background: #1d4ed8;
+}
 
-    .status {
-      margin-top: 12px;
-      color: #475569;
-      font-size: 14px;
-    }
+.secondary-btn {
+  background: #475569;
+}
 
-    .section {
-      margin-top: 18px;
-    }
+.secondary-btn:hover {
+  background: #334155;
+}
 
-    .tag {
-      display: inline-block;
-      padding: 6px 10px;
-      margin: 4px 6px 0 0;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 600;
-    }
+.status {
+  margin-top: 12px;
+  color: #475569;
+  font-size: 14px;
+}
 
-    .green {
-      background: #dcfce7;
-      color: #166534;
-    }
+.section {
+  margin-top: 18px;
+}
 
-    .red {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
+.tag {
+  display: inline-block;
+  padding: 6px 10px;
+  margin: 4px 6px 0 0;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
 
-    .blue {
-      background: #dbeafe;
-      color: #1e40af;
-    }
+.green {
+  background: #dcfce7;
+  color: #166534;
+}
 
-    .muted-box {
-      background: #f8fafc;
-      border: 1px solid #e5e7eb;
-      border-radius: 10px;
-      padding: 12px;
-      margin-top: 8px;
-      white-space: pre-wrap;
-      font-size: 14px;
-      line-height: 1.45;
-      max-height: 220px;
-      overflow-y: auto;
-    }
+.red {
+  background: #fee2e2;
+  color: #b91c1c;
+}
 
-    .score {
-      font-size: 28px;
-      font-weight: 700;
-      color: #111827;
-    }
+.blue {
+  background: #dbeafe;
+  color: #1e40af;
+}
 
-    ul {
-      padding-left: 20px;
-      margin-top: 8px;
-    }
+.muted-box {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 12px;
+  margin-top: 8px;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.45;
+  max-height: 220px;
+  overflow-y: auto;
+}
 
-    li {
-      margin-bottom: 6px;
-    }
-  </style>
+.score {
+  font-size: 28px;
+  font-weight: 700;
+  color: #111827;
+}
+
+ul {
+  padding-left: 20px;
+  margin-top: 8px;
+}
+
+li {
+  margin-bottom: 6px;
+}
+</style>
 </head>
 
 <body>
@@ -143,7 +153,6 @@
 <h1>AI Career Agent</h1>
 
 <div class="container">
-
   <div class="card">
     <h2>Resume Analyzer</h2>
 
@@ -157,6 +166,7 @@
     <textarea id="jobDescription" placeholder="Paste the job description here"></textarea>
 
     <button onclick="analyze()">Analyze Resume</button>
+    <button class="secondary-btn" onclick="clearForm()">Clear</button>
     <div class="status" id="statusText">Ready</div>
   </div>
 
@@ -170,128 +180,275 @@
 
     <div class="section">
       <strong>Job Title</strong>
-      <div id="jobTitleResult">No analysis yet</div>
+      <div id="jobTitleResult">No title returned</div>
     </div>
 
     <div class="section">
       <strong>Matched Skills</strong>
-      <div id="matchedSkills"></div>
+      <div id="matchedSkills">No items</div>
     </div>
 
     <div class="section">
       <strong>Resume Skills</strong>
-      <div id="resumeSkills"></div>
+      <div id="resumeSkills">No items</div>
     </div>
 
     <div class="section">
       <strong>Job Skills</strong>
-      <div id="jobSkills"></div>
+      <div id="jobSkills">No items</div>
     </div>
 
     <div class="section">
       <strong>Missing Skills</strong>
-      <div id="missingSkills"></div>
+      <div id="missingSkills">No items</div>
     </div>
 
     <div class="section">
       <strong>Suggestions</strong>
       <ul id="suggestions">
-        <li>No analysis yet</li>
+        <li>No suggestions</li>
       </ul>
     </div>
 
     <div class="section">
       <strong>Resume Preview</strong>
-      <div class="muted-box" id="resumePreview">No analysis yet</div>
+      <div class="muted-box" id="resumePreview">No resume text extracted.</div>
     </div>
 
     <div class="section">
       <strong>AI Rewrite</strong>
-      <div class="muted-box" id="rewriteOutput">No rewrite yet</div>
+      <div class="muted-box" id="rewriteOutput">No rewrite generated.</div>
     </div>
-  </div>
 
+    <button onclick="downloadPDF()">Download NEW Resume PDF</button>
+  </div>
 </div>
 
 <script>
-  function renderTags(containerId, items, colorClass) {
-    const container = document.getElementById(containerId);
-    container.innerHTML = "";
+let latestData = null;
 
-    if (!items || items.length === 0) {
-      container.innerHTML = "<span>No items</span>";
-      return;
-    }
+function renderTags(containerId, items, colorClass) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
 
-    items.forEach(item => {
-      const span = document.createElement("span");
-      span.className = "tag " + colorClass;
-      span.textContent = item;
-      container.appendChild(span);
+  if (!items || items.length === 0) {
+    container.innerHTML = "No items";
+    return;
+  }
+
+  items.forEach(item => {
+    const span = document.createElement("span");
+    span.className = "tag " + colorClass;
+    span.textContent = item;
+    container.appendChild(span);
+  });
+}
+
+function clearForm() {
+  document.getElementById("resume").value = "";
+  document.getElementById("jobTitle").value = "";
+  document.getElementById("jobDescription").value = "";
+  document.getElementById("scoreText").textContent = "--%";
+  document.getElementById("jobTitleResult").textContent = "No title returned";
+  document.getElementById("matchedSkills").innerHTML = "No items";
+  document.getElementById("resumeSkills").innerHTML = "No items";
+  document.getElementById("jobSkills").innerHTML = "No items";
+  document.getElementById("missingSkills").innerHTML = "No items";
+  document.getElementById("suggestions").innerHTML = "<li>No suggestions</li>";
+  document.getElementById("resumePreview").textContent = "No resume text extracted.";
+  document.getElementById("rewriteOutput").textContent = "No rewrite generated.";
+  document.getElementById("statusText").textContent = "Ready";
+  latestData = null;
+}
+
+async function analyze() {
+  const file = document.getElementById("resume").files[0];
+  const jobTitle = document.getElementById("jobTitle").value.trim();
+  const jobDescription = document.getElementById("jobDescription").value.trim();
+
+  if (!file || !jobTitle || !jobDescription) {
+    alert("Please upload a resume, enter a job title, and paste a job description.");
+    return;
+  }
+
+  const form = new FormData();
+  form.append("resume", file);
+  form.append("job_title", jobTitle);
+  form.append("job_description", jobDescription);
+
+  document.getElementById("statusText").textContent = "Analyzing...";
+
+  try {
+    const res = await fetch("http://127.0.0.1:8000/analyze", {
+      method: "POST",
+      body: form
     });
-  }
 
-  async function analyze() {
-    const file = document.getElementById("resume").files[0];
-    const jobTitle = document.getElementById("jobTitle").value.trim();
-    const jobDescription = document.getElementById("jobDescription").value.trim();
-    const statusText = document.getElementById("statusText");
+    const data = await res.json();
+    latestData = data;
 
-    if (!file || !jobTitle || !jobDescription) {
-      alert("Please upload a resume, enter a job title, and paste a job description.");
-      return;
-    }
+    document.getElementById("scoreText").textContent = (data.score ?? 0) + "%";
+    document.getElementById("jobTitleResult").textContent = data.job_title || "No title returned";
 
-    const formData = new FormData();
-    formData.append("resume", file);
-    formData.append("jobTitle", jobTitle);
-    formData.append("jobDescription", jobDescription);
+    renderTags("matchedSkills", data.matched || [], "green");
+    renderTags("resumeSkills", data.resume_skills || [], "blue");
+    renderTags("jobSkills", data.job_skills || [], "blue");
+    renderTags("missingSkills", data.missing || [], "red");
 
-    statusText.textContent = "Analyzing...";
-
-    try {
-      const response = await fetch("http://127.0.0.1:8000/analyze", {
-        method: "POST",
-        body: formData
-      });
-
-      const data = await response.json();
-
-      document.getElementById("scoreText").textContent = (data.match_score ?? "--") + "%";
-      document.getElementById("jobTitleResult").textContent = data.job_title || "No title returned";
-
-      renderTags("matchedSkills", data.matched_skills, "green");
-      renderTags("resumeSkills", data.resume_skills, "blue");
-      renderTags("jobSkills", data.job_skills, "blue");
-      renderTags("missingSkills", data.missing_skills, "red");
-
-      const suggestions = document.getElementById("suggestions");
-      suggestions.innerHTML = "";
-
-      if (data.suggestions && data.suggestions.length > 0) {
-        data.suggestions.forEach(item => {
-          const li = document.createElement("li");
-          li.textContent = item;
-          suggestions.appendChild(li);
-        });
-      } else {
+    const sug = document.getElementById("suggestions");
+    sug.innerHTML = "";
+    const suggestions = data.suggestions || [];
+    if (suggestions.length === 0) {
+      sug.innerHTML = "<li>No suggestions</li>";
+    } else {
+      suggestions.forEach(s => {
         const li = document.createElement("li");
-        li.textContent = "No suggestions";
-        suggestions.appendChild(li);
-      }
-
-      document.getElementById("resumePreview").textContent =
-        data.resume_preview || "No resume text extracted.";
-
-      document.getElementById("rewriteOutput").textContent =
-        data.rewritten_resume || "No rewrite generated.";
-
-      statusText.textContent = "Done";
-    } catch (error) {
-      statusText.textContent = "Error";
-      alert("Could not connect to backend. Make sure your server is running.");
+        li.textContent = s;
+        sug.appendChild(li);
+      });
     }
+
+    document.getElementById("resumePreview").textContent =
+      data.resume_preview || "No resume text extracted.";
+
+    const rewrite = data.rewrite_structured || {};
+    let rewriteText = "";
+
+    if (rewrite.summary) {
+      rewriteText += "Professional Summary:\n" + rewrite.summary + "\n\n";
+    }
+
+    if (rewrite.bullets && rewrite.bullets.length > 0) {
+      rewriteText += "Improved Bullet Points:\n";
+      rewrite.bullets.forEach(b => {
+        rewriteText += "- " + b + "\n";
+      });
+      rewriteText += "\n";
+    }
+
+    if (rewrite.education && rewrite.education.length > 0) {
+      rewriteText += "Education:\n";
+      rewrite.education.forEach(item => {
+        rewriteText += "- " + item + "\n";
+      });
+      rewriteText += "\n";
+    }
+
+    if (rewrite.projects && rewrite.projects.length > 0) {
+      rewriteText += "Projects:\n";
+      rewrite.projects.forEach(item => {
+        rewriteText += "- " + item + "\n";
+      });
+    }
+
+    document.getElementById("rewriteOutput").textContent =
+      rewriteText || "No rewrite generated.";
+
+    document.getElementById("statusText").textContent = "Done";
+  } catch (err) {
+    console.error(err);
+    document.getElementById("statusText").textContent = "Error";
+    alert("Could not connect to backend. Make sure your server is running.");
   }
+}
+
+function addWrappedText(doc, text, x, y, maxWidth, lineHeight) {
+  const lines = doc.splitTextToSize(text, maxWidth);
+  doc.text(lines, x, y);
+  return y + (lines.length * lineHeight);
+}
+
+function addSectionTitle(doc, title, y) {
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.text(title, 20, y);
+  return y + 5;
+}
+
+function addBulletList(doc, items, y) {
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+
+  items.forEach(item => {
+    const lines = doc.splitTextToSize("• " + item, 170);
+    doc.text(lines, 20, y);
+    y += lines.length * 5 + 2;
+
+    if (y > 270) {
+      doc.addPage();
+      y = 20;
+    }
+  });
+
+  return y;
+}
+
+function downloadPDF() {
+  if (!latestData) {
+    alert("Run analysis first");
+    return;
+  }
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+
+  const rewrite = latestData.rewrite_structured || {};
+  const matchedSkills = (latestData.matched || []).join(" • ");
+  const jobTitle = latestData.job_title || "Target Role";
+
+  let y = 20;
+
+  doc.setFontSize(20);
+  doc.setFont("helvetica", "bold");
+  doc.text("Ansh Patel", 20, y);
+
+  y += 6;
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "normal");
+  doc.text("Kennesaw, GA • anshp1598@gmail.com • linkedin.com/in/anshpatel2", 20, y);
+
+  y += 4;
+  doc.setLineWidth(0.5);
+  doc.line(20, y, 190, y);
+  y += 8;
+
+  y = addSectionTitle(doc, "TARGET ROLE", y);
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(10);
+  y = addWrappedText(doc, jobTitle, 20, y, 170, 5);
+  y += 3;
+
+  y = addSectionTitle(doc, "SUMMARY", y);
+  y = addWrappedText(doc, rewrite.summary || "No summary generated.", 20, y, 170, 5);
+  y += 3;
+
+  y = addSectionTitle(doc, "TECHNICAL SKILLS", y);
+  y = addWrappedText(doc, matchedSkills || "No matched skills detected", 20, y, 170, 5);
+  y += 3;
+
+  y = addSectionTitle(doc, "EXPERIENCE", y);
+  y = addBulletList(doc, rewrite.bullets || [], y);
+  y += 3;
+
+  if (y > 240) {
+    doc.addPage();
+    y = 20;
+  }
+
+  y = addSectionTitle(doc, "EDUCATION", y);
+  y = addBulletList(doc, rewrite.education || [], y);
+  y += 3;
+
+  if (y > 240) {
+    doc.addPage();
+    y = 20;
+  }
+
+  y = addSectionTitle(doc, "PROJECTS", y);
+  y = addBulletList(doc, rewrite.projects || [], y);
+
+  doc.save("AI_Career_Agent_Resume.pdf");
+}
 </script>
 
 </body>
