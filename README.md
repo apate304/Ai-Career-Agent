@@ -56,4 +56,25 @@ AI-Career-Agent/
 │── backend.py
 │── index.html
 │── README.md
+---
+
+
+---
+
+## 🚀 How to Run Locally
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/apate304/Ai-Career-Agent.git
+cd Ai-Career-Agent
+___
+
+pip install fastapi uvicorn python-multipart
+
+python backend.py
+
+open index.html
+
+
+
 
