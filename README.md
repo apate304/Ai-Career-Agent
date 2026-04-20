@@ -1,27 +1,55 @@
-# AI Career Agent
+# 🚀 AI Career Agent
 
-A full-stack web application that analyzes resumes against job descriptions and generates tailored improvement suggestions.
+An AI-powered full-stack web application that analyzes resumes against job descriptions, identifies skill gaps, generates improvement suggestions, and produces a professionally formatted downloadable resume.
 
-## Features
+---
 
-* Resume upload (PDF support)
-* Job description matching
-* Skill gap analysis
-* Match score calculation
-* Resume preview
-* AI-style resume rewrite (no API required)
+## 📌 Features
 
-## Tech Stack
+- 📄 Resume Upload & Parsing
+- 🎯 Job Match Scoring
+- 🧠 Skill Extraction & Comparison
+- ⚠️ Missing Skills Detection
+- 💡 Smart Suggestions for Improvement
+- ✍️ AI Resume Rewrite (Structured)
+- 📊 Interactive Results Dashboard
+- 📥 Download Improved Resume as PDF
 
-* Python (FastAPI)
-* HTML, CSS, JavaScript
-* PDF parsing (pdfplumber)
+---
 
-## How to Run
+## 🖥️ Demo
 
-```bash
-cd AI-Career-Agent
-python backend.py
-```
+Upload your resume → paste a job description → instantly get:
 
-Then open index.html in browser.
+- Match Score
+- Matched vs Missing Skills
+- Suggestions
+- AI-generated resume rewrite
+- Clean downloadable resume (PDF)
+
+---
+
+## ⚙️ Tech Stack
+
+### Frontend
+- HTML
+- CSS
+- JavaScript
+- jsPDF (PDF generation)
+
+### Backend
+- Python
+- FastAPI
+
+### Concepts Used
+- Resume parsing
+- Skill extraction
+- Keyword matching
+- Data processing
+- API integration
+- Full-stack development
+
+---
+
+## 📂 Project Structure
+
