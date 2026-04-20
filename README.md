@@ -52,4 +52,8 @@ Upload your resume → paste a job description → instantly get:
 ---
 
 ## 📂 Project Structure
+AI-Career-Agent/
+│── backend.py
+│── index.html
+│── README.md
 
